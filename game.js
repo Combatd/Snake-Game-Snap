@@ -187,6 +187,13 @@ returns true (the snake crashed into itself) or false (the snake is not crashing
 function checkCrashItself(){
   /* TO DO */
   
+  for (let i = 0; i < snake.cells.length; i++) {
+    let snakeHead = snake.cells[0]
+    for (let j = 1; j < snake.cells.length; j++) {
+      if (snakeHead.x === snake.cells[j].x && snakeHead.y === snake.cells[j].y) return true;
+    }
+  }
+  return false;
   
 }
 
