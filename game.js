@@ -24,6 +24,9 @@ var apple = {
   color: "green"
 }
 
+// Custom: Game Score
+var gameScore = 0;
+
 /***MAIN FUNCTIONS***/
 
 /* start the game */
@@ -77,6 +80,8 @@ function snakeSquadLoop() {
   drawApple();
   if (snakeTouchesApple()) {
     lengthenSnakeByOne();
+    // custom function increaseScoreByOne()
+    increaseScoreByOne();
     randomlyGenerateApple();
   }
   
@@ -119,7 +124,7 @@ uses context functions to fill the cell at apple.x and apple.y with apple.color
 function drawApple(){
   /* TO DO */
   context.beginPath();
-  context.arc(apple.x, apple.y, 15, 0, 2 * Math.PI, true)
+  context.arc(apple.x, apple.y, 20, 0, 2 * Math.PI, true)
   context.strokeStyle = "yellow";
   context.lineWidth = 4;
   context.stroke();
@@ -201,7 +206,7 @@ function checkCrashItself(){
 displays an alert and reloads the page
 */
 function endGame(){
-  alert("GAME OVER");
+  alert("GAME OVER - " + "Score: " + gameScore);
   document.location.reload();
 }
 
@@ -212,4 +217,11 @@ see https://stackoverflow.com/a/1527820/2124254
 */
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+/* Custom: increaseScoreByOne
+Increases gameScore by one upon snakeTouchesApple invocation
+*/
+const increaseScoreByOne = () => {
+  gameScore += 1;
 }
