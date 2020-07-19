@@ -24,6 +24,13 @@ var apple = {
   color: "green"
 }
 
+// custom pill object is here
+var pill = {
+  x: getRandomInt(0, 15) * grid,
+  y: getRandomInt(0, 15) * grid,
+  color: "pink"
+}
+
 // Custom: Game Score
 var gameScore = 0;
 
@@ -78,6 +85,11 @@ function snakeSquadLoop() {
   calculateSnakeMove();
   drawSnake();
   drawApple();
+  // custom conditional for drawPill()
+  if (gameScore >= 40) {
+    drawPill();
+  }
+  
   if (snakeTouchesApple()) {
     lengthenSnakeByOne();
     // custom function increaseScoreByOne()
@@ -85,9 +97,16 @@ function snakeSquadLoop() {
     randomlyGenerateApple();
   }
   
+  // custom conditonal calling snakeTouchesPill()
+  if (snakeTouchesPill()) {
+    shortenSnakeByOne()
+    randomlyGeneratePill();
+  }
+  
   if (checkCrashItself()) {
     endGame();
   }
+  
 }
 
 function calculateSnakeMove(){
@@ -132,6 +151,14 @@ function drawApple(){
   context.fill();
 }
 
+/* custom function drawPill
+uses context functions to fill the cell at pill.x and pill.y
+*/
+const drawPill = () => {
+  context.fillStyle = pill.color;
+  context.fillRect(pill.x, pill.y, grid, grid)
+}
+
 
 /*drawSnake
 For each cell of the snake, fill in the grid at the location (cell.x, cell.y) with the snake.color 
@@ -142,6 +169,7 @@ function drawSnake(){
   for (let i = 1; i < snake.cells.length; i++) {
     drawCellWithBitmoji(snake.cells[0]);
     context.fillStyle = snake.color;
+    context.strokeStyle = 'blue';
     context.fillRect(snake.cells[i].x, snake.cells[i].y, grid, grid);
   }
 }
@@ -169,11 +197,35 @@ function snakeTouchesApple(){
   
 }
 
+
+/* Custom function snakeTouchesPill
+checks if any call in the snake is at the same x and y location of the pill
+returns true (the snake is eating the pill) or false (the snake is not eating the pill)
+*/
+const snakeTouchesPill = () => {
+  if(pill.x === snake.cells[0].x && snake.y === snake.cells[0].y) {
+    return true
+  } else {
+    return false;
+  }
+  
+}
+
+
+
 /*lengthenSnakeByOne
 increments the currentLength property of the snake object by one to show that the snake has eaten an apple
 */
 function lengthenSnakeByOne(){
   snake.currentLength = snake.currentLength + 1;
+}
+
+/* Custom function shortenSnakeByOne
+decrements the currentLength property of the snake object by one to show that the snake has eaten a pill
+*/
+const shortenSnakeByOne = () => {
+  // snake.cells.pop();
+  snake.currentLength -= 1;
 }
 
 /*randomlyGenerateApple
@@ -183,6 +235,16 @@ this function does not draw the apple itself, it only stores the new locations i
 function randomlyGenerateApple(){
   apple.x = getRandomInt(0, 15) * grid;
   apple.y = getRandomInt(0, 15) * grid;
+}
+
+/* Custom function randomlyGeneratePill
+uses getRandomInt to generate a new x and y location for the pill within the grid
+this function does not draw the pill itself, it only stores the new locations in the pill object
+it will only run
+*/
+const randomlyGeneratePill = () => {
+  pill.x = getRandomInt(0, 15) * grid;
+  pill.y = getRandomInt(0, 15) * grid;
 }
 
 /*checkCrashItself
@@ -225,3 +287,4 @@ Increases gameScore by one upon snakeTouchesApple invocation
 const increaseScoreByOne = () => {
   gameScore += 1;
 }
+
