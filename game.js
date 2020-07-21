@@ -31,8 +31,32 @@ var pill = {
   color: "pink"
 }
 
-// Custom: Game Score
+// custom asteroid objects is here
+var asteroidOne = {
+  x: getRandomInt(0, 15) * grid,
+  y: getRandomInt(0, 15) * grid
+}
+var asteroidTwo = {
+  x: getRandomInt(0, 15) * grid,
+  y: getRandomInt(0, 15) * grid
+}
+var asteroidThree = {
+  x: getRandomInt(0, 15) * grid,
+  y: getRandomInt(0, 15) * grid
+}
+var asteroidFour = {
+  x: getRandomInt(0, 15) * grid,
+  y: getRandomInt(0, 15) * grid
+}
+
+// custom asteroidImg
+var asteroidImg = document.querySelector('#asteroid-img');
+
+// Custom Variables
 var gameScore = 0;
+const backgroundMusic = document.getElementById('background-music');
+backgroundMusic.volume = 0.1;
+const gameOverSound = document.getElementById('game-over-sound');
 
 /***MAIN FUNCTIONS***/
 
@@ -66,6 +90,13 @@ document.addEventListener('keydown', function(e) {
     snake.y_step = grid;
     snake.x_step = 0;
   }
+  
+  // custom conditional invoking pauseGame()
+  if (e.which === 80) {
+    // pauseGame();
+    alert('Game Paused: Click "OK" to Resume');
+  }
+  
 });
 
 /***HELPER FUNCTIONS***/
@@ -85,25 +116,81 @@ function snakeSquadLoop() {
   calculateSnakeMove();
   drawSnake();
   drawApple();
-  // custom conditional for drawPill()
-  if (gameScore >= 40) {
+  drawScore();
+  
+  // custom invocation of drawAsteroid()  
+  drawAsteroid(asteroidOne);
+  
+  // custom invocation of drawPill()
+  if (gameScore >= 20){
     drawPill();
   }
+  
+    
+  // custom conditional for drawAsteroid(asteroid)
+  
+  // should draw asteroidTwo at gameScore 20
+  if (gameScore >= 25) {
+    drawAsteroid(asteroidTwo);
+  }
+  // should draw asteroidThree at gameScore 30
+  if (gameScore >= 30) {
+    drawAsteroid(asteroidThree);
+  }
+  // should draw asteroidFour at gameScore 50
+  if (gameScore >= 50) {
+    drawAsteroid(asteroidFour);
+  }
+  
   
   if (snakeTouchesApple()) {
     lengthenSnakeByOne();
     // custom function increaseScoreByOne()
     increaseScoreByOne();
     randomlyGenerateApple();
+    if ((checkAppleOnAsteroid(asteroidOne) || checkAppleOnAsteroid(asteroidTwo) || checkAppleOnAsteroid(asteroidThree) || checkAppleOnAsteroid(asteroidFour) ) ) {
+      randomlyGenerateApple();
+    }
   }
   
   // custom conditonal calling snakeTouchesPill()
   if (snakeTouchesPill()) {
     shortenSnakeByOne()
     randomlyGeneratePill();
+    
   }
   
+  // custom conditional for checkCrashIntoAsteroid
+  if (checkCrashIntoAsteroid(asteroidOne)) {
+    // gameOverSound.play();
+    backgroundMusic.pause();
+    endGame();
+  }
+  
+  if (checkCrashIntoAsteroid(asteroidTwo && gameScore >= 25)) {
+    // gameOverSound.play();
+    backgroundMusic.pause();
+    endGame();
+  }
+  
+  if (checkCrashIntoAsteroid(asteroidThree) && gameScore >= 30) {
+    // gameOverSound.play();
+    backgroundMusic.pause();
+    endGame();
+  }
+  
+  if (checkCrashIntoAsteroid(asteroidFour) && gameScore >= 50) {
+    // gameOverSound.play();
+    backgroundMusic.pause();
+    endGame();
+  }
+  
+  
+  
+  
   if (checkCrashItself()) {
+    // gameOverSound.play();
+    backgroundMusic.pause();
     endGame();
   }
   
@@ -143,7 +230,7 @@ uses context functions to fill the cell at apple.x and apple.y with apple.color
 function drawApple(){
   /* TO DO */
   context.beginPath();
-  context.arc(apple.x, apple.y, 20, 0, 2 * Math.PI, true)
+  context.arc(apple.x, apple.y, 15, 0, -1.5 * Math.PI, true)
   context.strokeStyle = "yellow";
   context.lineWidth = 4;
   context.stroke();
@@ -158,6 +245,17 @@ const drawPill = () => {
   context.fillStyle = pill.color;
   context.fillRect(pill.x, pill.y, grid, grid)
 }
+
+
+
+/* Custom drawAsteroid()
+  use context function to draw an asteroid at asteroid.x and asteroid.y
+*/
+const drawAsteroid = (asteroid) => {
+  // context.drawImage(img,x,y);
+  context.drawImage(asteroidImg, asteroid.x, asteroid.y, 30, 30); 
+}
+
 
 
 /*drawSnake
@@ -247,6 +345,17 @@ const randomlyGeneratePill = () => {
   pill.y = getRandomInt(0, 15) * grid;
 }
 
+/* Custom function randomlyGenerateAsteroid
+uses getRandomInt to generate a new x and y location for the asteroid within the grid
+this function does not draw the asteroid itself, it only stores the new locations in the asteroid object
+it will only run
+*/
+const randomlyGenerateAsteroid = (asteroid) => {
+  asteroid.x = getRandomInt(0, 15) * grid;
+  asteroid.y = getRandomInt(0, 15) * grid;
+}
+
+
 /*checkCrashItself
 checks if any cell in the snake is at the same x and y location of the any other cell of the snake
 returns true (the snake crashed into itself) or false (the snake is not crashing) 
@@ -288,3 +397,40 @@ const increaseScoreByOne = () => {
   gameScore += 1;
 }
 
+/* Custom: drawScore()
+  uses context object to draw a score using font and fillText with gameScore value
+*/
+const drawScore = () => {
+  context.font = '40px sans-serif';
+  context.fillText(`Score: ${gameScore}`, 39, 39);
+}
+
+/* Custom: pauseGame()
+  changes boolean isPaused to true and creates an alert which changes isPaused back to false after the alert
+*/
+const pauseGame = () => {
+  alert("Game Currently Paused");
+}
+
+/* Custom: checkCrashItself
+checks if any cell in the snake is at the same x and y location of any asteroid
+returns true (the snake crashed into asteroid) or false (the snake is not crashing) 
+*/
+const checkCrashIntoAsteroid = (asteroid) => {
+  let snakeHead = snake.cells[0];
+  if (snakeHead.x === asteroid.x && snakeHead.y == asteroid.y) {
+    return true;
+  }
+  return false;
+}
+
+/* Custom: checkAppleOnAsteroid
+checks if apple is generated on location of an asteroid
+returns true or false
+*/
+const checkAppleOnAsteroid = (asteroid) => {
+  if (apple.x === asteroid.x && apple.y === asteroid.y){ 
+    return true;
+  }
+  return false;
+}
