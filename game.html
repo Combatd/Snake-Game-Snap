@@ -1,3 +1,11 @@
+<!-- 
+game.html
+
+This code displays what you see when you first load https://t1-snakesquad-completed.glitch.me/game.html, which 
+is mostly a HTML5 canvas (that the game will appear on). It relies on game.css for styling and game.js for interactivity. 
+
+You don't need to make any changes here. 
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +16,13 @@
   <div style="display:none;"> <!-- These are hidden elements that we will display in game.js --> 
     <img id="avatar" src="https://mdn.mozillademos.org/files/5397/rhino.jpg" width="300" height="227">
   </div>
+  <audio id="background-music" autoplay loop volume="0.2">
+      <source src="https://cdn.glitch.com/cdd89f2a-aadc-4c2d-a769-b4010751d0e2%2FNineteen_Eighty_Seven.mp3?v=1595213078796" type="audio/mpeg">
+  </audio>
+  <audio id="game-over-sound">
+    <source src="https://cdn.glitch.com/cdd89f2a-aadc-4c2d-a769-b4010751d0e2%2Fgame-over-sound-effect.mp3?v=1595253006148" >
+  </audio>
+  <img id="asteroid-img" src="https://cdn.glitch.com/cdd89f2a-aadc-4c2d-a769-b4010751d0e2%2Fasteroid.png?v=1595283045909" hidden />
   <script src="/game.js" defer></script>
 </body>
 </html> 
