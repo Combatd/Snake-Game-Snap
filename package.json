@@ -1,0 +1,23 @@
+{
+  "name": "snake-game-snap",
+  "version": "1.0.0",
+  "description": "Snake Squad =================",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Combatd/Snake-Game-Snap.git"
+  },
+  "author": "mark calvelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Combatd/Snake-Game-Snap/issues"
+  },
+  "homepage": "https://github.com/Combatd/Snake-Game-Snap#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
