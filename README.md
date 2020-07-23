@@ -1,4 +1,3 @@
-# Snake-Game-Practice
 Snake Squad
 =================
 

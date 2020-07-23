@@ -1,14 +1,39 @@
-html, body {
+  html, body {
     height: 100%;
     margin: 0;
-    background: black;
+/*     background: black; */
   }
+
+@keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+
+/* linear-gradient(rgb(2, 14, 153), rgb(82, 2, 102)) */
+
   body {
     display: flex;
+    font-family: sans-serif;
     align-items: center;
     justify-content: center;
-/*     background-image: url("https://scx2.b-cdn.net/gfx/news/2017/1-snapchat.jpg"); */
+    background-image: linear-gradient(rgb(40, 100, 140), white, rgb(155, 230, 230));
   }
   canvas {
-    border: 1px solid white;
+    border: 8px solid rgb(34, 34, 34);
+    background-image: url("https://scx2.b-cdn.net/gfx/news/hires/2019/4-space.jpg");
+    animation: animatedBackground 120s linear infinite;
   }
+
+/* Mozilla Developer Network */
+/* linear-gradient(
+  [ <angle> | to <side-or-corner> ,]? <color-stop-list> ) */
+/* Accessed 20 July 2020 */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient */
+
+/* w3schools.com */
+/* @keyframes animationname {keyframes-selector {css-styles;}} */
+/* animationname	Required. Defines the name of the animation. */
+/* keyframes-selector Required. Percentage of the animation duration */
+/* css-styles Required. One or more legal CSS style properties */
+/* Accessed 20 July 2020 */
+/* https://www.w3schools.com/cssref/css3_pr_animation-keyframes.asp */
