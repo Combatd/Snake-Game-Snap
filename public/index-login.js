@@ -11,7 +11,7 @@ window.snapKitInit = function () {
   // Mount Login Button
   snap.loginkit.mountButton(loginButtonIconId, {
     clientId: 'd2bee2d3-4523-43eb-84d7-e4f4e98763b0', /*YOU CHANGE: Must be changed to the development client ID on snapckit*/
-    redirectURI: 'https://flawless-prickle-barnacle.glitch.me', /*YOU CHANGE: Must be changed to your glitch project's url AND added as the redirect URI on snapkit */
+    redirectURI: 'http://localhost:8000', /*YOU CHANGE: Must be changed to your glitch project's url AND added as the redirect URI on snapkit */
     scopeList: [
       'user.display_name',
       'user.bitmoji.avatar',

@@ -70,8 +70,3 @@ Asteroid Image
 Accessed 20 July 2020
 Screenshot of Asteroid Huge.png
 https://opengameart.org/content/pixel-art-2d-asteroid-pack
-
-Made by [Glitch](https://glitch.com/)
--------------------
-
-\ ゜o゜)ノ
